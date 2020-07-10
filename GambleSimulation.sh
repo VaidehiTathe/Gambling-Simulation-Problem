@@ -1,4 +1,4 @@
-#!/bin/bash -x
+
 STAKE_AMT=100
 BET_AMT=1
 WIN=1
