@@ -1,4 +1,4 @@
 #!/bin/bash -x
-stake=100
-bet=1
-echo "Stake is:" $stake
+stake_amt=100
+bet_amt=1
+echo "Stake amount is:" $stake_amt
