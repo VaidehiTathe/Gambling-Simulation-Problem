@@ -14,7 +14,7 @@ min=$((stakeAMT-percent))
 
 
 declare -A collectionPerDay
-totalDays=20
+totalDays=30
 stakeForTwentyDays=$(($stakeAMT*$totalDays))
 
 
@@ -35,8 +35,26 @@ do
 	allDaysCollection=$(($allDaysCollection+$totalAmt))
 	totalAmt=$(($stakeAMT))
 done
-echo "Collection dict is:" ${collectionPerDay[@]}
 echo "All day Collection is:"$allDaysCollection
+
+function daysWon()
+{
+	echo "Collection of month is:" ${collectionPerDay[@]}
+
+	for i in "${!collectionPerDay[@]}"
+	do
+		if [[ ${collectionPerDay[$i]} -gt $max ]]
+		then
+			echo "The day gambler won is:$i"
+		elif [[ ${collectionPerDay[$i]} -lt $min ]]
+		then
+			echo "The day gambler looses is:$i"
+		else
+			echo "tie"
+		fi
+	done
+}
+daysWon
 
 if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
 then
