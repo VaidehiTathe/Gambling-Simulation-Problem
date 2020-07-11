@@ -9,7 +9,7 @@ loose=0
 random=$((RANDOM%2))
 
 
-if [[ $random -eq $WIN ]]
+if [[ $random -eq $win ]]
 then
 	echo "You Win $"$betAMT
 else
