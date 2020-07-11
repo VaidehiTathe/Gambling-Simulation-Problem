@@ -1,14 +1,8 @@
 #CONSTANTS FOR THE PROGRAMM
 stakeAMT=100
 betAMT=1
-win=1
-loose=0
-
-#VARIABLES
 totalAmt=$((stakeAMT))
-totalDays=20
-winAMT=0
-looseAMT=0
+allDaysCOllection=0
 
 percent=$(((stakeAMT*50)/100))
 echo "percentage:"$percent
@@ -16,40 +10,36 @@ echo "percentage:"$percent
 max=$((percent+stakeAMT))
 min=$((stakeAMT-percent))
 
-resign()
-{
-	while [[ $totalAmt -gt $min && $totalAmt -lt $max ]]
+declare -A collectionPerDay
+totalDays=20
+stakeForTwentyDays=$(($stakeAMT*$totalDays))
+
+
+for(( day=1; day<=$totalDays; day++ ))
+do
+
+	while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
 	do
 		betCheck=$(($RANDOM%2));
-		case $betCheck in
-			$win)
-      			betAMT=1  totalAmt=$(( $totalAmt + 1 ))
-         			;;
-  			$loose)
-		       	betAMT=1  totalAmt=$(( $totalAmt + 1 ))
-        			;;
-		esac
+		if [[ $betCheck -eq 1 ]]
+		then
+			((totalAmt++))
+		else
+			((totalAmt--))
+		fi
 	done
-}
-resign
-
-echo "Total amount is:" $totalAmt
-
-calculateTotalAmount()
-{
-for (( day=1; day<=$totalDays; day++ ))
-do 
-	totalAMT=$stakeAMT
-	if [ $totalAmt -gt $stakeAMT ]
-	then
-		winAMt=$(( $totalAmt-$stakeAMT ))
-#		echo "total amt is:"$totalAMT
-		totalwinAMT=$(( $totalwinAMT + $winAMT))
-	else
-		looseAMT=$(( $stakeAMT-$totalAMT ))
-	fi
+	collectionPerDay[$day]=$((totalAmt))
+	allDaysCollection=$(($allDaysCollection+$totalAmt))
+	totalAmt=$(($stakeAMT))
 done
-}
-calculateTotalAmount
-echo "Winning amount is:" $totalwinAMT
-echo "Loosing amount is:" $looseAMT
+echo "Collection dict is:" ${collectionPerDay[@]}
+echo "All day Collection is:"$allDaysCollection
+
+if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
+then
+	winBy=`expr $allDaysCollection - $stakeForTwentyDays`
+	echo "Gambler win by:"$winBy
+else
+	looseBy=`expr $stakeForTwentyDays - $allDaysCollection`
+	echo "Gambler loose by:" $looseBy
+fi
