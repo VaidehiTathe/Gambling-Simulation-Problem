@@ -37,8 +37,13 @@ do
 done
 echo "All day Collection is:"$allDaysCollection
 
+#VARIABLES FOR FUNCTIONS
 countOfDaysWin=0
 countOfDaysLoose=0
+declare -a luckyDays
+counterOfLuckyDays=0
+declare -a unluckyDays
+counterOfUnluckyDays=0
 function daysWonLoose()
 {
 	echo "Collection of month is:" ${collectionPerDay[@]}
@@ -48,17 +53,22 @@ function daysWonLoose()
 		if [[ ${collectionPerDay[$i]} -gt $max ]]
 		then
 			((countOfDaysWin++))
+			luckyDays[((counterOfLuckyDays++))]=$i
 		elif [[ ${collectionPerDay[$i]} -lt $min ]]
 		then
 			((countOfDaysLoose++))
+			unluckyDays[((counterOfUnluckyDays++))]=$i
 		else
 			echo "tie"
 		fi
 	done
 	echo "Count of days gambler won the game is:" $countOfDaysWin
+	echo "Luckiest days of gambler is:" ${luckyDays[@]}
 	echo "Count of days gambler loose the game is:" $countOfDaysLoose
+	echo "Unluckiest days of gambler is:" ${unluckyDays[@]}
 }
 daysWonLoose
+
 
 if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
 then
