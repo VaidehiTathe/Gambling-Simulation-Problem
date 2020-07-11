@@ -1,4 +1,5 @@
 
+
 #CONSTANTS FOR THE PROGRAMM
 stakeAMT=100
 betAMT=1
@@ -17,35 +18,64 @@ declare -A collectionPerDay
 totalDays=30
 stakeForTwentyDays=$(($stakeAMT*$totalDays))
 
-
-for(( day=1; day<=$totalDays; day++ ))
-do
-
-	while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
-	do
-		betCheck=$(($RANDOM%2));
-		if [[ $betCheck -eq 1 ]]
-		then
-			((totalAmt++))
-		else
-			((totalAmt--))
-		fi
-	done
-	collectionPerDay[$day]=$((totalAmt))
-	allDaysCollection=$(($allDaysCollection+$totalAmt))
-	totalAmt=$(($stakeAMT))
-done
-echo "All day Collection is:"$allDaysCollection
-
-#VARIABLES FOR FUNCTIONS
+#VARIABLES FOR FUNCTIONS daywonloose
 countOfDaysWin=0
 countOfDaysLoose=0
 declare -a luckyDays
 counterOfLuckyDays=0
 declare -a unluckyDays
 counterOfUnluckyDays=0
+
+function play()
+{
+for(( day=1; day<=$totalDays; day++ ))
+do
+
+        while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
+        do
+                betCheck=$(($RANDOM%2));
+                if [[ $betCheck -eq 1 ]]
+                then
+                        ((totalAmt++))
+                else
+                        ((totalAmt--))
+                fi
+        done
+        collectionPerDay[$day]=$((totalAmt))
+        allDaysCollection=$(($allDaysCollection+$totalAmt))
+        totalAmt=$(($stakeAMT))
+done
+daysWonLoose
+if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
+then
+        winBy=`expr $allDaysCollection - $stakeForTwentyDays`
+        echo "Gambler win by:"$winBy
+        choice
+else
+        looseBy=`expr $stakeForTwentyDays - $allDaysCollection`
+        echo "Gambler loose by:" $looseBy
+fi
+}
+
+
+function choice()
+{
+        read -p "Enter 1 if want to play:" y
+	#echo "valus of user after win is:"$z 
+        if [[ $y -eq 1 ]]
+        then
+                play
+        else
+                echo "Thank you"
+		exit
+        fi
+}
+
+
+
 function daysWonLoose()
 {
+	echo "All day Collection is:"$allDaysCollection
 	echo "Collection of month is:" ${collectionPerDay[@]}
 
 	for i in "${!collectionPerDay[@]}"
@@ -67,15 +97,7 @@ function daysWonLoose()
 	echo "Count of days gambler loose the game is:" $countOfDaysLoose
 	echo "Unluckiest days of gambler is:" ${unluckyDays[@]}
 }
-daysWonLoose
 
+play
 
-if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
-then
-	winBy=`expr $allDaysCollection - $stakeForTwentyDays`
-	echo "Gambler win by:"$winBy
-else
-	looseBy=`expr $stakeForTwentyDays - $allDaysCollection`
-	echo "Gambler loose by:" $looseBy
-fi
 
