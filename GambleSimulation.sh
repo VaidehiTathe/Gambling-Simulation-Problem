@@ -1,5 +1,5 @@
 
-STAKE_AMT=100
+stakeAmt=100
 BET_AMT=1
 WIN=1
 LOOSE=0
