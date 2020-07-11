@@ -1,61 +1,36 @@
 
 
 #CONSTANTS FOR THE PROGRAMM
-STAKE_AMT=100
-BET_AMT=1
-WIN=1
-LOOSE=0
+stakeAMT=100
+betAMT=1
+win=1
+loose=0
 
 #VARIABLES
-totalbet_win_amt=0
-totalbet_loose_amt=0
+totalbetWinAmt=0
+totalbetLooseAmt=0
 
-percent=$(((STAKE_AMT*50)/100))
+percent=$(((stakeAMT*50)/100))
 echo "percentage:"$percent
 
-max=$((percent+STAKE_AMT))
-min=$((STAKE_AMT-percent))
+max=$((percent+stakeAMT))
+min=$((stakeAMT-percent))
 
 
-while [[ $totalbet_win_amt -lt $max && $totalbet_loose_amt -lt $min ]]
+while [[ $totalbetWinAmt -lt $max && $totalbetLooseAmt -lt $min ]]
 do
 betCheck=$(($RANDOM%2));
 case $betCheck in
-  $WIN)
-      BET_AMT=1  totalbet_win_amt=$(($totalbet_win_amt + 1))
+  $win)
+      betAMT=1  totalbetWinAmt=$(( $totalbetWinAmt + 1 ))
          ;;
-  $LOOSE)
-       BET_AMT=1  totalbet_loose_amt=$(($totalbet_loose_amt + 1))
+  $loose)
+       betAMT=1  totalbetLooseAmt=$(( $totalbetLooseAmt + 1 ))
         ;;
 esac
-#total_amt=$(( $total_amt + $BET_AMT ));
-echo "winning amt is:" $totalbet_win_amt
-echo "Loosing amount is:"$totalbet_loose_amt
+echo "winning amt is:" $totalbetWinAmt
+echo "Loosing amount is:"$totalbetLooseAmt
 done
-echo "Total winning amount:" $(($totalbet_win_amt + $STAKE_AMT))
-echo "total loosing amount is:" $(($totalbet_loose_amt + $STAKE_AMT))
-
-
-
-
-
-
-#chance=0
-#while [[ $totalbet_win_amt -lt $max && $totalbet_loose_amt -gt $min ]]
-#do
-#	((chance++))
-#	random=$((RANDOM%2))
-#	if [[ $random -eq $WIN ]]
-#	then
-#		echo "You Win $"$BET_AMT
-#		totalbet_win_amt=$(( $totalbet_win_amt + $BTE_AMT ))
-#	else
-#		echo "You loose $"$BET_AMT
-#		totalbet_loose_amt=$(( $totalbet_loose_amt + $BET_AMT))
-#	fi
-#totalbet_win_amt=$(( $totalbet_win_amt + $BTE_AMT ))
-#totalbet_loose_amt=$(( $totalbet_loose_amt + $BET_AMT))
-#done
-#echo "Total winning amount is:" $totalbet_win_amt
-#echo "Total loosing amount is:" $totalbet_loose_amt
+echo "Total winning amount:" $(($totalbetWinAmt + $stakeAMT))
+echo "total loosing amount is:" $(($totalbetLooseAmt + $stakeAMT))
 
