@@ -1,15 +1,17 @@
 
+echo "Welcome to Gambling Game"
+#Declaring Variables
 stakeAmt=100
-BET_AMT=1
-WIN=1
-LOOSE=0
+betAMT=1
+win=1
+loose=0
 
 random=$((RANDOM%2))
-echo "Value generated is:"$random
+
 
 if [[ $random -eq $WIN ]]
 then
-	echo "You Win $"$BET_AMT
+	echo "You Win $"$betAMT
 else
-	echo "You loose $"$BET_AMT
+	echo "You loose $"$betAMT
 fi
