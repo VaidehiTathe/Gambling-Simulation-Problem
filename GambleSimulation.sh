@@ -37,7 +37,9 @@ do
 done
 echo "All day Collection is:"$allDaysCollection
 
-function daysWon()
+countOfDaysWin=0
+countOfDaysLoose=0
+function daysWonLoose()
 {
 	echo "Collection of month is:" ${collectionPerDay[@]}
 
@@ -45,16 +47,18 @@ function daysWon()
 	do
 		if [[ ${collectionPerDay[$i]} -gt $max ]]
 		then
-			echo "The day gambler won is:$i"
+			((countOfDaysWin++))
 		elif [[ ${collectionPerDay[$i]} -lt $min ]]
 		then
-			echo "The day gambler looses is:$i"
+			((countOfDaysLoose++))
 		else
 			echo "tie"
 		fi
 	done
+	echo "Count of days gambler won the game is:" $countOfDaysWin
+	echo "Count of days gambler loose the game is:" $countOfDaysLoose
 }
-daysWon
+daysWonLoose
 
 if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
 then
