@@ -7,8 +7,7 @@ win=1
 loose=0
 
 #VARIABLES
-totalbetWinAmt=0
-totalbetLooseAmt=0
+totalAmt=$stakeAMT
 
 percent=$(((stakeAMT*50)/100))
 echo "percentage:"$percent
@@ -17,20 +16,15 @@ max=$((percent+stakeAMT))
 min=$((stakeAMT-percent))
 
 
-while [[ $totalbetWinAmt -lt $max && $totalbetLooseAmt -lt $min ]]
+while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
 do
-betCheck=$(($RANDOM%2));
-case $betCheck in
-  $win)
-      betAMT=1  totalbetWinAmt=$(( $totalbetWinAmt + 1 ))
-         ;;
-  $loose)
-       betAMT=1  totalbetLooseAmt=$(( $totalbetLooseAmt + 1 ))
-        ;;
-esac
-echo "winning amt is:" $totalbetWinAmt
-echo "Loosing amount is:"$totalbetLooseAmt
+	betCheck=$(($RANDOM%2));
+	if [[ $betCheck -eq $win ]]
+	then
+		totalAmt=$(( $totalAmt + $betAMT ))
+	else
+		totalAmt=$(( $totalAmt - $betAMT))
+	fi
 done
-echo "Total winning amount:" $(($totalbetWinAmt + $stakeAMT))
-echo "total loosing amount is:" $(($totalbetLooseAmt + $stakeAMT))
+echo "amount:" $totalAmt
 
