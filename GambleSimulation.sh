@@ -26,9 +26,9 @@ do
 		betCheck=$(($RANDOM%2));
 		if [[ $betCheck -eq 1 ]]
 		then
-			((totalAmt++))
+			totalAmt=$(( $totalAmt + $betAMT ))
 		else
-			((totalAmt--))
+			totalAmt=$(( $totalAmt - $betAMT ))
 		fi
 	done
 	collectionPerDay[$day]=$((totalAmt))
