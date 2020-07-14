@@ -8,7 +8,8 @@ prevDayCollection=$((stakeAMT))
 
 
 declare -A collectionPerDay
-totalDays=5
+counterForCollectionPerDay=1
+totalDays=15
 stakeForTwentyDays=$(($stakeAMT*$totalDays))
 
 #VARIABLES FOR FUNCTIONS daywonloose
@@ -42,9 +43,7 @@ do
                 fi
         done
         collectionPerDay[$day]=$((prevDayCollection))
-	prevDayCollection=$(($prevDayCollection)) #+$totalAmt
-#        allDaysCollection=$(($allDaysCollection+$totalAmt))
-        #totalAmt=$(($stakeAMT))
+	prevDayCollection=$(($prevDayCollection)) 
 	echo "collection for day $day is:"$prevDayCollection
 done
 daysWonLoose
@@ -54,7 +53,6 @@ daysWonLoose
 function choice()
 {
         read -p "Enter 1 if want to play:" y
-        #echo "valus of user after win is:"$z
         if [[ $y -eq 1 ]]
         then
                 play
@@ -71,30 +69,27 @@ function luckyUnluckyDays()
 	do
 		for money in ${collectionPerDay[@]}
 		do
-#			echo "money is:$money"
 			luckyDays[((counterOfLuckyDays++))]=$money
-#			luckyDays([$days])=$money
+			# luckyDays([$days])=$money
 		done
 		break
 	done
 	echo "lucky day array is:${!luckyDays[@]}"
 	echo "lucky money array is:${luckyDays[@]}"
-#	echo "The luckiest day is: $(printf "%d\n" ${!luckyDays[@]} | sort -n | tail -n1)"
+	size=${#collectionPerDay[@]}
+	echo "size of array is $size"
+	highestAmount=0;
+        for(( num=1;num<=size;num++ ))
+ 	do
+		if [[ collectionPerDay[$num] -ge highestAmount ]]
+		then
+	   		highestAmount=$((collectionPerDay[$num]))
+			luck=$num
+	        fi
+	done
+	echo "The luckiest day is: "$luck
+	echo "The largest number is: "$highestAmount
 
-	echo "The largest number is: $(printf "%d\n" ${luckyDays[@]} | sort -n | tail -n1)"
-
-#	for val in ${luckyDays[@]}
-#	do
-#		 echo "The luckiest day is: $(printf "%d\n" ${!luckyDays[@]} | sort -n | tail -n1)"
-		 #echo "val is $val"
-#		for val2 in ${collectioPerDay[@]}
-#		do
-#			if [[ val -eq val2 ]]
-#			then
-#				echo "day is:${!collectioPerDay[@]}"
-#			fi
-#		done
-#	done
 }
 
 
