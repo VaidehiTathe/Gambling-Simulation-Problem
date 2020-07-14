@@ -44,3 +44,47 @@ do
         collectionPerDay[$day]=$((totalAmt))
         allDaysCollection=$(($allDaysCollection+$totalAmt))
         totalAmt=$(($stakeAMT))
+done
+daysWonLoose
+if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
+then
+        winBy=`expr $allDaysCollection - $stakeForTwentyDays`
+        echo "Gambler win by:"$winBy
+        choice
+else
+        looseBy=`expr $stakeForTwentyDays - $allDaysCollection`
+        echo "Gambler loose by:" $looseBy
+fi
+}
+
+
+function choice()
+{
+        read -p "Enter 1 if want to play:" y
+        #echo "valus of user after win is:"$z
+        if [[ $y -eq 1 ]]
+        then
+                play
+        else
+                echo "Thank you"
+                exit
+        fi
+}
+
+
+
+function daysWonLoose()
+{
+        echo "All day Collection is:"$allDaysCollection
+        echo "Collection of month is:" ${collectionPerDay[@]}
+
+        for i in "${!collectionPerDay[@]}"
+        do
+                if [[ ${collectionPerDay[$i]} -gt $max ]]
+                then
+                        ((countOfDaysWin++))
+                        luckyDays[((counterOfLuckyDays++))]=$i
+                elif [[ ${collectionPerDay[$i]} -lt $min ]]
+                then
+                        ((countOfDaysLoose++))
+                        unluckyDays[((counterOfUnluckyDays++))]=$i
