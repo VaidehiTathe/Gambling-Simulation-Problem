@@ -5,45 +5,44 @@ STAKEAMT=100
 BETAMT=1
 WIN=1
 LOOSE=0
+ONE=1
 perDayCollection=$((STAKEAMT))
 
 
 declare -A collectionPerDay
 counterForCollectionPerDay=1
-totalDays=5
+totalDays=20
 stakeForTwentyDays=$(($STAKEAMT*$totalDays))
 
 #VARIABLES FOR FUNCTIONS daywonloose
 countOfDaysWin=0
 countOfDaysLoose=0
- 
+totalAmtForAllDays=0
 
 
 function play()
 {
-for(( day=1; day<=$totalDays; day++ ))
-do
+	for(( day=$ONE; day<=$totalDays; day++ ))
+	do
+		percent=$(((perDayCollection*50)/100))
+		stakeAmt[((count++))]=$(($percent))
+		max=$((percent+perDayCollection))
+		min=$((perDayCollection-percent))
 
-	
-	percent=$(((perDayCollection*50)/100))
-	stakeAmt[((count++))]=$(($percent))
-	max=$((percent+perDayCollection))
-	min=$((perDayCollection-percent))
-
-        while [[ $perDayCollection -le $max &&  $perDayCollection -ge $min ]]
-        do
-                betCheck=$(($RANDOM%2));
-                if [[ $betCheck -eq $WIN ]]
-                then
-                        perDayCollection=$(( $perDayCollection + $BETAMT ))
-                else
-                        perDayCollection=$(( $perDayCollection - $BETAMT ))
-                fi
-        done
-        collectionPerDay[$day]=$((perDayCollection))
-	echo "collection for day $day is:"$perDayCollection
-done
-daysWonLoose
+	        while [[ $perDayCollection -le $max &&  $perDayCollection -ge $min ]]
+        	do
+                	betCheck=$(($RANDOM%2));
+	                if [[ $betCheck -eq $WIN ]]
+        	        then
+                	        perDayCollection=$(( $perDayCollection + $BETAMT ))
+	                else
+        	                perDayCollection=$(( $perDayCollection - $BETAMT ))
+                	fi
+	        done
+        	collectionPerDay[$day]=$((perDayCollection))
+		echo "collection for day $day is:"$perDayCollection
+	done
+	luckyUnluckyDays
 }
 
 
@@ -64,18 +63,18 @@ function luckyUnluckyDays()
 {
 	size=${#collectionPerDay[@]}
 	highestAmount=0;
-        for(( num=1;num<=size;num++ ))
+        for(( day=$ONE;day<=size;day++ ))
  	do
-		if [[ collectionPerDay[$num] -ge highestAmount ]]
+		if [[ collectionPerDay[$day] -ge highestAmount ]]
 		then
-	   		highestAmount=$((collectionPerDay[$num]))
-			luck=$num
+	   		highestAmount=$((collectionPerDay[$day]))
+			luck=$day
 	        fi
 	done
-	echo "The luckiest day is $luck and the amount is $highestAmount"
+	echo "The luckiest day is $day and the amount is $highestAmount"
 
         lowestAmount=${collectionPerDay[1]};
-        for(( day=1; day<=size; day++ ))
+        for(( day=$ONE; day<=size; day++ ))
         do
                 if [[ collectionPerDay[$day] -le lowestAmount ]]
                 then
@@ -85,22 +84,17 @@ function luckyUnluckyDays()
         done
         echo "The unluckiest day is $unLuck and the amount is $lowestAmount"
 
+daysWonLoose
 }
 
-
-
-
-
-totalAmtForAllDays=0
 function daysWonLoose()
 {
 
-	luckyUnluckyDays
-        for i in "${!collectionPerDay[@]}"
+        for day in "${!collectionPerDay[@]}"
         do
-		totalAmtForAllDays=$(($totalAmtForAllDays+${collectionPerDay[$i]}))
+		totalAmtForAllDays=$(($totalAmtForAllDays+${collectionPerDay[$day]}))
 	done	
-	echo "Total collection for $totalDays is $totalAmtForAllDays"
+	echo "Total collection for $totalDays days is $totalAmtForAllDays"
 
 	if [[ $totalAmtForAllDays -gt $stakeForTwentyDays ]]
 	then
