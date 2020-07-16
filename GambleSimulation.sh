@@ -1,38 +1,37 @@
 #CONSTANTS FOR THE PROGRAMM
-stakeAMT=100
-betAMT=1
-totalAmt=$((stakeAMT))
+STAKEAMT=100
+BETAMT=1
+ONE=1
+totalAmt=$((STAKEAMT))
 allDaysCOllection=0
 
-percent=$(((stakeAMT*50)/100))
-echo "percentage:"$percent
+percent=$(((STAKEAMT*50)/100))
 
-max=$((percent+stakeAMT))
-min=$((stakeAMT-percent))
+max=$((percent+STAKEAMT))
+min=$((STAKEAMT-percent))
 
 declare -A collectionPerDay
 totalDays=20
-stakeForTwentyDays=$(($stakeAMT*$totalDays))
+stakeForTwentyDays=$(($STAKEAMT*$totalDays))
 
 
-for(( day=1; day<=$totalDays; day++ ))
+for(( day=$ONE; day<=$totalDays; day++ ))
 do
 
 	while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
 	do
 		betCheck=$(($RANDOM%2));
-		if [[ $betCheck -eq 1 ]]
+		if [[ $betCheck -eq $ONE ]]
 		then
-			totalAmt=$(( $totalAmt + $betAMT ))
+			totalAmt=$(( $totalAmt + $BETAMT ))
 		else
-			totalAmt=$(( $totalAmt - $betAMT ))
+			totalAmt=$(( $totalAmt - $BETAMT ))
 		fi
 	done
 	collectionPerDay[$day]=$((totalAmt))
 	allDaysCollection=$(($allDaysCollection+$totalAmt))
-	totalAmt=$(($stakeAMT))
+	totalAmt=$(($STAKEAMT))
 done
-echo "Collection dict is:" ${collectionPerDay[@]}
 echo "All day Collection is:"$allDaysCollection
 
 if [[ $allDaysCollection -gt $stakeForTwentyDays ]]
