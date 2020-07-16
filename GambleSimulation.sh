@@ -1,29 +1,27 @@
-
-
 #CONSTANTS FOR THE PROGRAMM
-stakeAMT=100
-betAMT=1
-win=1
-loose=0
+STAKEAMT=100
+BETAMT=1
+WIN=1
+LOOSE=0
 
 #VARIABLES
-totalAmt=$stakeAMT
+totalAmt=$STAKEAMT
 
-percent=$(((stakeAMT*50)/100))
+percent=$(((STAKEAMT*50)/100))
 echo "percentage:"$percent
 
-max=$((percent+stakeAMT))
-min=$((stakeAMT-percent))
+max=$((percent+STAKEAMT))
+min=$((STAKEAMT-percent))
 
 
 while [[ $totalAmt -le $max && $totalAmt -ge $min ]]
 do
 	betCheck=$(($RANDOM%2));
-	if [[ $betCheck -eq $win ]]
+	if [[ $betCheck -eq $WIN ]]
 	then
-		totalAmt=$(( $totalAmt + $betAMT ))
+		totalAmt=$(( $totalAmt + $BETAMT ))
 	else
-		totalAmt=$(( $totalAmt - $betAMT))
+		totalAmt=$(( $totalAmt - $BETAMT))
 	fi
 done
 echo "amount:" $totalAmt
