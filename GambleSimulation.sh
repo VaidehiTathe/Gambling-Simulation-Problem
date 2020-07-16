@@ -41,7 +41,6 @@ do
                 fi
         done
         collectionPerDay[$day]=$((perDayCollection))
-	#stakeAmt[((count++))]=$(($perDayCollection)) 
 	echo "collection for day $day is:"$perDayCollection
 done
 daysWonLoose
@@ -102,9 +101,6 @@ function daysWonLoose()
 		totalAmtForAllDays=$(($totalAmtForAllDays+${collectionPerDay[$i]}))
 	done	
 	echo "Total collection for $totalDays is $totalAmtForAllDays"
-
-#	stakeForTwentyDays=$(($perDayCollection*$totalDays))
-#	echo "stake for all days is $stakeForTwentyDays"
 
 	if [[ $totalAmtForAllDays -gt $stakeForTwentyDays ]]
 	then
