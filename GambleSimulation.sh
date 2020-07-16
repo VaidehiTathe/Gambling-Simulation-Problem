@@ -19,7 +19,6 @@ countOfDaysWin=0
 countOfDaysLoose=0
 totalAmtForAllDays=0
 
-
 function play()
 {
 	for(( day=$ONE; day<=$totalDays; day++ ))
@@ -71,7 +70,7 @@ function luckyUnluckyDays()
 			luck=$day
 	        fi
 	done
-	echo "The luckiest day is $day and the amount is $highestAmount"
+	echo "The luckiest day is $luck and the amount is $highestAmount"
 
         lowestAmount=${collectionPerDay[1]};
         for(( day=$ONE; day<=size; day++ ))
