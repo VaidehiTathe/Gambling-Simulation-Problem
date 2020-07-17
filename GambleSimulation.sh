@@ -24,6 +24,7 @@ function play()
 	for(( day=$ONE; day<=$totalDays; day++ ))
 	do
 		percent=$(((perDayCollection*50)/100))
+		percent=$(($percent + 100))
 		stakeAmt[((count++))]=$(($percent))
 		max=$((percent+perDayCollection))
 		min=$((perDayCollection-percent))
